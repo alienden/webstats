@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for dict_item in results %}
-         {% for key in dict_item %}
-        <p>{{key  }} </p>
-        <p>{{dict_item[key] }} </p>
-             {% endfor %}
+    {% for item in results %}
+        <p>{{item  }} </p>
     {% endfor %}
 {% endblock %}
