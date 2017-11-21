@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for item in results %}
-        <p>{{item  }} </p>
-    {% endfor %}
+    <div id="plotly"></div>
+    <script type="text/javascript">
+        var graphs = {{graphJSON | safe}};
+        Plotly.plot(plotly, // the ID of the div, created above
+                    graphs[0].data,
+                    graphs[0].layout || {});
+    </script>
 {% endblock %}
