@@ -15,10 +15,11 @@ def graph():
 
     client = InfluxDBClient(host=app.config['INFLUX_HOST'], port=app.config['INFLUX_PORT'], database=app.config['INFLUX_DATABASE'])
     #get all the power measurments from InfluxDB for the last 24hr
-    result = client.query('select time, power_consumption from W where time > now() - 24h')
+    result = client.query("select time, power_consumption from W where time > now() - 24h tz('America/New_York')")
 
     datapoints = list(result.get_points())
     header_list = list(datapoints[0].keys())
+
     #get list of values for x,y axis
     for point in datapoints:
         timestamps.append(point['time'])
@@ -31,14 +32,16 @@ def graph():
                 dict(
                     x=timestamps,
                     y=powervalues,
-                    type='scatter'
+                    type='scatter',
+                    name='spline',
                 ),
             ],
             layout=dict(
-                title='Power Consumption from PC outlet'
+                title='Power Consumption from the PC outlet'
             )
         )
     ]
+
     graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
 
 
